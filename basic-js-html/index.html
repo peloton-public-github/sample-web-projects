@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base href="/">
+        <meta charset="UTF-8">
+        <title>Peloton Dev-Summit Demo</title>
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h2>
+            <span class="brand">pe<span class="middle">l</span>oton</span>
+            <form>
+                <input id="prodview" type="radio" value="prodview" name="product" checked>
+                <label for="prodview">
+                    <a class="prodlink" id="pvlink" href="#" onclick="setActiveProduct('prodview')">ProdView</a>
+                </label>
+                <input id="wellview" type="radio" value="wellview" name="product">
+                <label for="wellview">
+                    <a class="prodlink" id="wvlink" href="#" onclick="setActiveProduct('wellview')">WellView</a>
+                </label>
+            </form>
+            <span class="title">Bearer-Token API Authentication</span>
+        </h2>
+        <div class="btn-group">
+            <div class="inner-group" id="pvreqs">
+                <button onclick="requestFor('user')">USER</button>
+                <button onclick="requestFor('units')">UNITS</button>
+                <button onclick="requestFor('tasks')">TASKS</button>
+                <button onclick="requestFor('tickets')">TICKETS</button>
+                <button onclick="requestFor('networks')">NETWORKS</button>
+                <button onclick="requestFor('facilities')">FACILITIES</button>
+            </div>
+            <div class="inner-group" id="wvreqs">
+                <button onclick="requestFor('user')">USER</button>
+                <button onclick="requestFor('jobs')">JOBS</button>
+                <button onclick="requestFor('wells')">WELLS</button>
+                <button onclick="requestFor('cements')">CEMENTS</button>
+                <button onclick="requestFor('casings')">CASINGS</button>
+                <button onclick="requestFor('inspections')">INSPECTIONS</button>
+            </div>
+            <div class="settings-btns">
+                <button class="format-btn" onclick="switchFormat()">FORMAT</button>
+                <span class="calcs-toggle" id="calcsOption">
+                    <div class="tooltip">
+                        <label class="label">
+                            <div class="toggle">
+                                <input class="toggle-state" id="incalcs" type="checkbox" onchange="updateCalcs()"/>
+                                <div class="toggle-inner">
+                                    <div class="indicator"></div>
+                                </div>
+                                <div class="active-bg"></div>
+                            </div>
+                        </label>
+                        <span class="tooltiptext">Show/Hide Calculated Values</span>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div class="output">
+            <p id="showData"></p>
+        </div>
+    </body>
+    <script src="scripts/modules/store.js"></script>
+    <script src="scripts/utils/routes.js"></script>
+    <script src="scripts/utils/env.js"></script>
+    <script src="scripts/utils/dom.js"></script>
+    <script src="scripts/modules/state.js"></script>
+    <script src="scripts/modules/api.js"></script>
+    <script src="scripts/modules/json.js"></script>
+    <script src="scripts/modules/builder.js"></script>
+    <script src="scripts/modules/app.js"></script>
+    <script src="scripts/main.js"></script>
+</html>

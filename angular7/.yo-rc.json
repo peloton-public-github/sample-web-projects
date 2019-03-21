@@ -1,0 +1,22 @@
+{
+  "generator-ngx-rocket": {
+    "version": "5.3.0",
+    "props": {
+      "location": "path",
+      "appName": "angular7-peloton-api",
+      "target": [
+        "web"
+      ],
+      "pwa": false,
+      "ui": "material",
+      "layout": "simple",
+      "auth": false,
+      "lazy": false,
+      "angulartics": false,
+      "prettier": true,
+      "projectName": "angular-7-peloton-api",
+      "packageManager": "npm",
+      "mobile": []
+    }
+  }
+}
