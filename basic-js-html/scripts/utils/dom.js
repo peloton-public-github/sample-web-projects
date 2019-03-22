@@ -2,11 +2,14 @@
 
 function CheckToggleValue() {
     var toggle = document.getElementById('incalcs');
-    toggle.toggleAttribute('checked');
+    if (toggle.getAttribute('checked')) {
+        toggle.setAttribute('checked', false);
+    } else {
+        toggle.setAttribute('checked', true);
+    }
 }
 
-function CheckProductView() {
-    var product = getProduct();
+function CheckProductView(product) {
     var prodviewLabel = document.getElementById('pvlink');
     var wellviewLabel = document.getElementById('wvlink');
     var prodviewLinks = document.getElementById('pvreqs');
@@ -27,7 +30,7 @@ function CheckProductView() {
 function HighlightProductRow(product) {
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
-        if (rows[i].outerText.includes(product)) {
+        if (rows[i].innerText.includes(product)) {
             rows[i].setAttribute('class', 'justactivated');
         }
     }

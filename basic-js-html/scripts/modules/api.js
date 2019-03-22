@@ -19,7 +19,7 @@ class Api {
 
     setEndpoint(forUser, product, target) {
         if (!forUser) {
-            if (includeCalcs()) {
+            if (store.includeCalcs()) {
                 let suffix = `?${ENV.params}=true`;
                 this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}${suffix}`;
             } else {
@@ -40,7 +40,7 @@ class Api {
 
     initRequest(forUser, path) {
         var product = this.getProduct();
-        var custom = getProductKey();
+        var custom = store.getProductKey();
         this.setEndpoint(forUser, product, path);
         this.request = this.configureRequest(product, custom);
         this.sendRequest(this.request);
@@ -51,7 +51,7 @@ class Api {
         req.open('GET', this.endpoint, true);
         req.setRequestHeader('Ocp-Apim-Subscription-Key', `${ENV.subscriptkey}`)
         req.setRequestHeader('Authorization', `Bearer ${ENV.token}`);
-        req.setRequestHeader(`${product}`, 'dwB2AHwAMQAwAC4AMAAwAHwAMQAwAC4AMwAwAHwAaQBkAHcAZQBsAGwAfAB3AHYAdwBlAGwAbABoAGUAYQBkAGUAcgB8ADQANAA3ADgARAAwAEQARABBADMAQwBBADQAQgAzADUAQgBBADUARgBFADUAQwAxADgAQQA3ADAANQBFADEAOQB8AFcAZQBsAGwAVgBpAGUAdwB8AHcAdgB8ADEAMAAuADMAMAB8AEEAbABsACAARABhAHQAYQA=');
+        req.setRequestHeader(`${product}`, `${custom}`);
         return req;
     }
 

@@ -1,9 +1,12 @@
+// var store;
 var store;
 
-(function() { StartUp(); }());
+(function() {
+    StartUp();
+})();
 
 function StartUp()  {
-    //store = new Store();
+    store = new Store();
     updateCalcs();
     setActiveProduct(ENV.default.product);
 }
@@ -13,25 +16,25 @@ function initialize() {
 }
 
 function updateCalcs() {
-    var calcs = includeCalcs();
-    setCalcs(calcs);
+    var calcs = store.includeCalcs();
+    store.setCalcs(calcs);
     CheckToggleValue();
 }
 
 function setActiveProduct(product) {
-    setProduct(product);
-    CheckProductView();
+    store.setProduct(product);
+    CheckProductView(product);
     requestFor(ENV.default.path);
 }
 
 function requestFor(path) {
     let app = initialize();
-    let product = getProduct();
+    let product = store.getProduct();
     app.setupRequest(product, path);
     waitForResponse(app);
 }
-function waitForResponse(app) {
 
+function waitForResponse(app) {
     setTimeout(() => {
         if (app.api.complete) {
             confirmResponse(app);
@@ -55,8 +58,8 @@ function organizationExists(orgs) {
 }
 
 function setProductKey(app) {
-    let prod = 'dwB2AHwAMQAwAC4AMAAwAHwAMQAwAC4AMwAwAHwAaQBkAHcAZQBsAGwAfAB3AHYAdwBlAGwAbABoAGUAYQBkAGUAcgB8ADQANAA3ADgARAAwAEQARABBADMAQwBBADQAQgAzADUAQgBBADUARgBFADUAQwAxADgAQQA3ADAANQBFADEAOQB8AFcAZQBsAGwAVgBpAGUAdwB8AHcAdgB8ADEAMAAuADMAMAB8AEEAbABsACAARABhAHQAYQA=';
-    let orgs = 'appframewebapi'; //app.api.response[0]['organizations'];
+    let prod = store.getProduct();
+    let orgs = app.api.response[0]['organizations'];
     findProductHeaderValue(prod, orgs)
 }
 
@@ -65,7 +68,7 @@ function findProductHeaderValue(prod, orgs) {
         var keys = Object.keys(orgs[0]);
         keys.forEach(key => {
             if (key === prod) {
-                setProductKey(orgs[0][key]['headervalue']);
+                store.setProductKey(orgs[0][key]['headervalue']);
             }
         })       
     }
@@ -78,15 +81,15 @@ function prepareResults(app) {
 
 function renderResponse(app, dbset) {
     app.clear();
-    var prod = getProduct();
+    var prod = store.getProduct();
     var builder = new Builder(app.viewer, dbset);
-    this.renderTable(app, builder, prod);
-    setBackup(app, builder);
+    renderTable(app, builder, prod);
+    store.setBackup(app, builder);
 }
 
 function switchFormat() {
-    let app = getApp();
-    let builder = getBuilder();
+    let app = store.getApp();
+    let builder = store.getBuilder();
     if (app.state.tableMode()) {
         app.state.setMode('json');
         rerenderAsJson(app, builder);
@@ -98,15 +101,15 @@ function switchFormat() {
 
 function rerenderAsJson(app, builder) {
     app.clear();
-    this.renderJson(app, builder);
-    setBackup(app, builder);
+    renderJson(app, builder);
+    store.setBackup(app, builder);
 }
 
 function rerenderAsTable(app, builder) {
     app.clear();
-    var prod = getProduct();
-    this.renderTable(app, builder, prod);
-    setBackup(app, builder);
+    var prod = store.getProduct();
+    renderTable(app, builder, prod);
+    store.setBackup(app, builder);
 }
 
 function renderTable(app, builder, prod) {

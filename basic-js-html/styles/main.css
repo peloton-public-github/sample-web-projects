@@ -124,6 +124,7 @@ th {
 }
 #showData {
     align-content: space-between;
+    resize: vertical;
     margin-top: 10px;
     max-height: 80vh;
     overflow: auto;
