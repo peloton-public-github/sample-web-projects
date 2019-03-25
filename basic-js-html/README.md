@@ -75,7 +75,7 @@ Recommended Frameworks:
 |   |-- modules
 |   |   |-- api.js      All code related to making requests to the API and assigning the appropriate headers to the request.
 |   |   |-- app.js      Defines the main object of the application / stores references to all core dependency libraries (API & state management libraries).
-|   |   |-- builder.js  Aids in interacting with results from the API that have been transformed via the JSON.js library.
+|   |   |-- builders.js  Aids in interacting with results from the API that have been transformed via the JSON.js library.
 |   |   |-- state.js    State mangages route/table/function view/model presentation based on user screen context.
 |   |   |-- store.js    Global state management.
 |   |-- utils           General helper libraries to simplify DOM manipulation & state management (Constants, helper functions & route management).

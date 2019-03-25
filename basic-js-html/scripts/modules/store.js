@@ -2,7 +2,9 @@
 
 class Store {
     constructor() {
+        this.needentity = false;
         this.incalcs = false;
+        this.entityid = null;
         this.builder = null;
         this.product = null;
         this.prodkey = null;
@@ -53,5 +55,21 @@ class Store {
     setCalcs(calcs) {
         if (calcs) { this.incalcs = false; }
         else { this.incalcs = true; }
+    }
+
+    setEntityNeeded(need) {
+        this.needentity = need;
+    }
+
+    needEntityId() {
+        return this.needentity;
+    }
+
+    setEntityId(id) {
+        this.entityid = id;
+    }
+
+    getEntityId() {
+        return this.entityid;
     }
 }

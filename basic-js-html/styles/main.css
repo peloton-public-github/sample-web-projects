@@ -184,6 +184,65 @@ pre:first-of-type {
     float: right;
     width: 20%;
 }
+dialog {
+    box-shadow: 0 0 1em black;
+    border-radius: 0.6rem;
+    padding: 0;
+    border: 0;
+}
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+dialog {
+  padding: 0;
+  border: 0;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 1em black;
+}
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+dialog + .backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+dialog[open] {
+    animation: slide-up 0.4s ease-out;
+}
+.close {
+    background-color: transparent;
+    position: absolute;
+    line-height: 0.6;
+    padding: 0.3em;
+    font-size: 2em;
+    right: 0.2em;
+    top: 0.2em;
+    border: 0;
+}
+.modal-header,
+.modal-body,
+.modal-footer {
+    padding: 1em;
+}
+.modal-header {
+    border-bottom: 1px solid hsl(211, 51%, 65%);
+    background-color: hsl(211, 65%, 48%);
+    border-top-right-radius: 0.6rem;
+    border-top-left-radius: 0.6rem;
+    padding-bottom: 0.6em;
+    color: #FFFFFF; 
+    margin: 0;
+}
+.modal-footer {
+    border-top: 1px solid hsl(211, 51%, 65%);
+}
+#confirm {
+    float: right;
+}
 @media only screen and (max-width: 870px) {
     h2 {
         background-color: #0065A4;
