@@ -2,11 +2,14 @@
 
 function CheckToggleValue() {
     var toggle = document.getElementById('incalcs');
-    toggle.toggleAttribute('checked');
+    if (toggle.getAttribute('checked')) {
+        toggle.setAttribute('checked', false);
+    } else {
+        toggle.setAttribute('checked', true);
+    }
 }
 
-function CheckProductView() {
-    var product = getProduct();
+function CheckProductView(product) {
     var prodviewLabel = document.getElementById('pvlink');
     var wellviewLabel = document.getElementById('wvlink');
     var prodviewLinks = document.getElementById('pvreqs');
@@ -27,10 +30,78 @@ function CheckProductView() {
 function HighlightProductRow(product) {
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
-        if (rows[i].outerText.includes(product)) {
+        if (rows[i].innerText.includes(product)) {
             rows[i].setAttribute('class', 'justactivated');
         }
     }
+}
+
+function LaunchEntitySelectionDialog(product, dataset) {
+    var wells = [];
+    var networks = [];
+    var wellsList = document.getElementById('mywells');
+    var networksList = document.getElementById('mynetworks');
+    var wellviewModal = document.getElementById('wellsModal');
+    var prodviewModal = document.getElementById('networksModal');
+    if (product === 'prodview') {
+        var prompt = 'Select Network...';
+        dataset.forEach(network => {
+            networks.push({
+                'name': network.name,
+                'id': network.idflownet
+            });
+        });
+        var selector = CreateDropdownSelector(prompt, networks);
+        networksList.appendChild(selector);
+        prodviewModal.show();
+    } else if (product === 'wellview') {
+        var prompt = 'Select Well...';
+        dataset.forEach(well => {
+            wells.push({
+                'name': well.wellname,
+                'id': well.idwell
+            });
+        });
+        var selector = CreateDropdownSelector(prompt, wells);
+        wellsList.appendChild(selector);
+        wellviewModal.show();
+    }
+}
+
+function CloseDialog(name) {
+    if (name === 'network') {
+        var modal = document.getElementById('networksModal');
+        var content = document.getElementById('mynetworks');
+        content.innerHTML = '';
+        modal.close();
+    } else {
+        var modal = document.getElementById('wellsModal');
+        var content = document.getElementById('mywells');
+        content.innerHTML = '';
+        modal.close();
+    }
+}
+
+function CreateDropdownSelector(prompt, array) {
+    var hiddenEID = document.getElementById('EID')
+    var select = document.createElement('select');
+    var opt = document.createElement('option');
+    opt.setAttribute('value', '');
+    opt.innerHTML = prompt;
+    opt.selected = true;
+    opt.disabled = true;
+    select.appendChild(opt);
+    array.forEach(item => {
+        var opt = document.createElement('option');
+        opt.setAttribute('value', item.id);
+        opt.innerHTML = item.name;
+        select.appendChild(opt);
+    });
+    select.addEventListener('change', (event) => {
+        select.value = event.target.value;
+        hiddenEID.value = select.value;
+    });
+    return select;
 }
 
 function BuildTable(container, dataset) {

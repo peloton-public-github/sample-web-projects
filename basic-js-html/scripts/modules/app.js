@@ -26,7 +26,12 @@ class App {
         this.state.setPath(path);
         this.setProduct(product);
         var reqUser = this.forUser(path);
-        this.api.createRequest(reqUser, path);
+        var reqChild = this.forChild(path);
+        this.api.createRequest(reqUser, reqChild, path);
+    }
+
+    forChild(path) {
+        return !(path === 'networks' || path === 'wells');
     }
 
     checkApiResponse() {

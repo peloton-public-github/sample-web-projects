@@ -59,17 +59,35 @@
             </div>
         </div>
         <div class="output">
+            <input id="EID" type="hidden" value="" />
+            <dialog class="modal" id="networksModal">
+                <h3 class="modal-header">Select Network</h3>
+                <div class="modal-body" id="mynetworks">
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeDialog('network')" type="button">Close</button>
+                    <button id="confirm" onclick="submitDialog('network')">Confirm</button>
+                </div>
+            </dialog>
+            <dialog class="modal" id="wellsModal">
+                <h3 class="modal-header">Select Well</h3>
+                <div class="modal-body" id="mywells">
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeDialog('well')" type="button">Close</button>
+                    <button id="confirm" onclick="submitDialog('well')">Confirm</button>
+                </div>
+            </dialog>
             <p id="showData"></p>
         </div>
+        <script src="scripts/utils/routes.js"></script>
+        <script src="scripts/utils/env.js"></script>
+        <script src="scripts/utils/dom.js"></script>
+        <script src="scripts/modules/state.js"></script>
+        <script src="scripts/modules/api.js"></script>
+        <script src="scripts/modules/builders.js"></script>
+        <script src="scripts/modules/app.js"></script>
+        <script src="scripts/modules/store.js"></script>
+        <script src="scripts/main.js"></script>
     </body>
-    <script src="scripts/modules/store.js"></script>
-    <script src="scripts/utils/routes.js"></script>
-    <script src="scripts/utils/env.js"></script>
-    <script src="scripts/utils/dom.js"></script>
-    <script src="scripts/modules/state.js"></script>
-    <script src="scripts/modules/api.js"></script>
-    <script src="scripts/modules/json.js"></script>
-    <script src="scripts/modules/builder.js"></script>
-    <script src="scripts/modules/app.js"></script>
-    <script src="scripts/main.js"></script>
 </html>

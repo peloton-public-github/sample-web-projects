@@ -1,52 +1,75 @@
+'use strict';
 
-    var incalcs = false;
-    var product = null;
-    var prodkey = null;
-    var app = null;
-    var builder = null;
-    
-    function setApp(app) {
+class Store {
+    constructor() {
+        this.needentity = false;
+        this.incalcs = false;
+        this.entityid = null;
+        this.builder = null;
+        this.product = null;
+        this.prodkey = null;
+        this.app = null;
+    }
+
+    setApp(app) {
         this.app = app;
     }
 
-    function getApp() {
+    getApp() {
         return this.app;
     }
 
-    function setProduct(product) {
+    setProduct(product) {
         this.product = product;
     }
 
-    function getProduct() {
+    getProduct() {
         return this.product;
     }
 
-    function setBuilder(builder) {
+    setBuilder(builder) {
         this.builder = builder;
     }
 
-    function getBuilder() {
+    getBuilder() {
         return this.builder;
     }
 
-    function setBackup(app, builder) {
+    setBackup(app, builder) {
         this.builder = builder;
         this.app = app;
     }
 
-    function setProductKey(key) {
+    setProductKey(key) {
         this.prodkey = key;
     }
 
-    function getProductKey() {
+    getProductKey() {
         return this.prodkey;
     }
 
-    function includeCalcs() {
+    includeCalcs() {
         return this.incalcs;
     }
 
-    function setCalcs(calcs) {
+    setCalcs(calcs) {
         if (calcs) { this.incalcs = false; }
         else { this.incalcs = true; }
     }
+
+    setEntityNeeded(need) {
+        this.needentity = need;
+    }
+
+    needEntityId() {
+        return this.needentity;
+    }
+
+    setEntityId(id) {
+        this.entityid = id;
+    }
+
+    getEntityId() {
+        return this.entityid;
+    }
+}

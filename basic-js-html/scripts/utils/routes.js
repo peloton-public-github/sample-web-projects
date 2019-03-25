@@ -1,15 +1,15 @@
 'use strict';
 
-const PV_FACILITIES = 'data/pvfacility/entityId/B3AA2B1C82364B19A75792A2888657E1';
-const PV_TICKETS = 'data/pvticket/entityId/B3AA2B1C82364B19A75792A2888657E1';
-const PV_TASKS = 'data/pvtask/entityId/B3AA2B1C82364B19A75792A2888657E1';
-const PV_UNITS = 'data/pvunit/entityId/B3AA2B1C82364B19A75792A2888657E1'
+const PV_FACILITIES = 'data/pvfacility/entityId';
+const PV_TICKETS = 'data/pvticket/entityId';
+const PV_TASKS = 'data/pvtask/entityId';
+const PV_UNITS = 'data/pvunit/entityId';
 const PV_NETWORKS = 'data/pvflownetheader';
 
-const WV_INSPECTS = 'data/wvinspect/entityId/946E6358693E482097B8099D7F84F532';
-const WV_CEMENTS = 'data/wvcement/entityId/946E6358693E482097B8099D7F84F532';
-const WV_CASINGS = 'data/wvcas/entityId/946E6358693E482097B8099D7F84F532';
-const WV_JOBS = 'data/wvjob/entityId/946E6358693E482097B8099D7F84F532';
+const WV_INSPECTS = 'data/wvinspect/entityId';
+const WV_CEMENTS = 'data/wvcement/entityId';
+const WV_CASINGS = 'data/wvcas/entityId';
+const WV_JOBS = 'data/wvjob/entityId';
 const WV_WELLS = 'data/wvwellheader';
 
 const API = 'https://apitest.peloton.com/v1';

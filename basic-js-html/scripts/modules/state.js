@@ -28,6 +28,14 @@ class State {
         return this.path === 'user';
     }
 
+    wellsPath() {
+        return this.path === 'wells';
+    }
+
+    networksPath() {
+        return this.path === 'networks';
+    }
+
     jsonMode() {
         return this.mode === 'json';
     }

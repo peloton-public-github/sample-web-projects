@@ -17,13 +17,27 @@ class Api {
         return this.product;
     }
 
-    setEndpoint(forUser, product, target) {
+    fetchEntityId() {
+        let entityid = store.getEntityId();
+        return entityid;
+    }
+
+    setEndpoint(forUser, forChild, product, target) {
         if (!forUser) {
-            if (includeCalcs()) {
+            if (store.includeCalcs()) {
                 let suffix = `?${ENV.params}=true`;
-                this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}${suffix}`;
+                if (forChild) {
+                    let eid = this.fetchEntityId();
+                    this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}/${eid}${suffix}`;
+                } else {
+                    this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}${suffix}`;
+                }
             } else {
-                this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}`;
+                if (forChild) {
+                    this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}/${eid}`;
+                } else {
+                    this.endpoint = `${ENV.routes.base}/${ENV.ou}/${product}/${ENV.routes[product][target]}`;
+                }
             }
         } else {
             this.endpoint = `${ENV.routes.base}/${ENV.routes.user}`;
@@ -34,14 +48,14 @@ class Api {
         return this.endpoint;
     }
 
-    createRequest(forUser, path) {
-        this.request = this.initRequest(forUser, path);
+    createRequest(forUser, forChild, path) {
+        this.request = this.initRequest(forUser, forChild, path);
     }
 
-    initRequest(forUser, path) {
+    initRequest(forUser, forChild, path) {
         var product = this.getProduct();
-        var custom = getProductKey();
-        this.setEndpoint(forUser, product, path);
+        var custom = store.getProductKey();
+        this.setEndpoint(forUser, forChild, product, path);
         this.request = this.configureRequest(product, custom);
         this.sendRequest(this.request);
     }
@@ -51,7 +65,7 @@ class Api {
         req.open('GET', this.endpoint, true);
         req.setRequestHeader('Ocp-Apim-Subscription-Key', `${ENV.subscriptkey}`)
         req.setRequestHeader('Authorization', `Bearer ${ENV.token}`);
-        req.setRequestHeader(`${product}`, 'dwB2AHwAMQAwAC4AMAAwAHwAMQAwAC4AMwAwAHwAaQBkAHcAZQBsAGwAfAB3AHYAdwBlAGwAbABoAGUAYQBkAGUAcgB8ADQANAA3ADgARAAwAEQARABBADMAQwBBADQAQgAzADUAQgBBADUARgBFADUAQwAxADgAQQA3ADAANQBFADEAOQB8AFcAZQBsAGwAVgBpAGUAdwB8AHcAdgB8ADEAMAAuADMAMAB8AEEAbABsACAARABhAHQAYQA=');
+        req.setRequestHeader(`${product}`, `${custom}`);
         return req;
     }
 
