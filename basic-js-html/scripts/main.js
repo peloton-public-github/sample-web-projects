@@ -1,4 +1,3 @@
-// var store;
 var store;
 
 (function() {
@@ -23,7 +22,7 @@ function updateCalcs() {
 
 function setActiveProduct(product) {
     store.setProduct(product);
-    CheckProductView(product);
+    CheckProductView();
     requestFor(ENV.default.path);
 }
 
@@ -48,6 +47,13 @@ function confirmResponse(app) {
     app.setDataSet(app.api.response);
     if (app.state.userPath()) {
         setProductKey(app);
+    } else if (
+        app.state.networksPath()
+        || app.state.wellsPath()
+    ) {
+        setEntityNeeded(true);
+    } else {
+        setEntityNeeded(false);
     }
     prepareResults(app);
 }
@@ -63,6 +69,24 @@ function setProductKey(app) {
     findProductHeaderValue(prod, orgs)
 }
 
+function setEntityNeeded(needed) {
+    store.setEntityNeeded(needed);
+}
+
+function closeDialog(name) {
+    CloseDialog(name);
+}
+
+function submitDialog(name) {
+    CloseDialog(name);
+    var hiddenEID = document.getElementById('EID');
+    var builder = store.getBuilder();
+    var eid = hiddenEID.value;
+    var app = store.getApp();
+    store.setEntityId(eid);
+    rerenderAsTable(app, builder);
+}
+
 function findProductHeaderValue(prod, orgs) {
     if (organizationExists(orgs)) {
         var keys = Object.keys(orgs[0]);
@@ -70,7 +94,7 @@ function findProductHeaderValue(prod, orgs) {
             if (key === prod) {
                 store.setProductKey(orgs[0][key]['headervalue']);
             }
-        })       
+        });
     }
 }
 
@@ -82,9 +106,16 @@ function prepareResults(app) {
 function renderResponse(app, dbset) {
     app.clear();
     var prod = store.getProduct();
+    checkIfParentCall(prod, dbset);
     var builder = new Builder(app.viewer, dbset);
     renderTable(app, builder, prod);
     store.setBackup(app, builder);
+}
+
+function checkIfParentCall(prod, data) {
+    if (store.needEntityId()) {
+        LaunchEntitySelectionDialog(prod, data);
+    }
 }
 
 function switchFormat() {
@@ -116,6 +147,13 @@ function renderTable(app, builder, prod) {
     if (app.state.userPath()) {
         app.viewer = builder.buildHeaders();
         HighlightProductRow(prod);
+    } else if (
+        app.state.networksPath()
+        || app.state.wellsPath()
+    ) {
+        let entity = store.getEntityId();
+        app.viewer = builder.buildTable();
+        HighlightProductRow(entity);
     } else {
         app.viewer = builder.buildTable();
     }

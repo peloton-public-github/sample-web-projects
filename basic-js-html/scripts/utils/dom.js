@@ -9,7 +9,8 @@ function CheckToggleValue() {
     }
 }
 
-function CheckProductView(product) {
+function CheckProductView() {
+    var product = store.getProduct();
     var prodviewLabel = document.getElementById('pvlink');
     var wellviewLabel = document.getElementById('wvlink');
     var prodviewLinks = document.getElementById('pvreqs');
@@ -30,6 +31,9 @@ function CheckProductView(product) {
 function HighlightProductRow(product) {
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
+        if (rows[i].hasAttribute('justactivated')) {
+            rows[i].removeAttribute('justactivated');
+        }
         if (rows[i].innerText.includes(product)) {
             rows[i].setAttribute('class', 'justactivated');
         }
