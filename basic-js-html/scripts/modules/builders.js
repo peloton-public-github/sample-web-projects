@@ -13,12 +13,8 @@ class Json {
         this.user[key] = val;
     }
 
-    setToBeProduct(key, vals) {
-        this.prods.push(Object.assign({'product': key}, vals));
-    }
-
-    setModifiedJson(orgs) {
-        this.mod = Object.assign(this.user, {'organizations': orgs}); 
+    setProducts(products) {
+        this.prods = products;
     }
 
     getUser() {
@@ -29,43 +25,12 @@ class Json {
         return this.prods;
     }
 
-    getOrganizations() {
-        return this.orgs;
-    }
-
-    getModifiedJson() {
-        return this.mod;
-    }
-
-    fixUserJson() {
-        var temp = this.mod;
-        temp.organizations.forEach(org => {
-            org.products.forEach(prod => {
-                prod = this.fixProduct(prod);
-            });
-        });
-        return temp;
-    }
-
-    fixProduct(prod) {
-        var name = prod['product'];
-        var header = prod['headervalue'];
-        var profiles = prod['appprofiles'];
-        delete prod['appprofiles'];
-        delete prod['headervalue'];
-        delete prod['product'];
-        prod.name = name;
-        prod.header_value = header;
-        prod.app_profiles = profiles;
-        return prod;
-    }
-
     createUserHeader() {
         var header = null;
         var raw = this.set[0];
         var keys = Object.keys(raw);
         for (var i = 0; i < keys.length; i++) {
-            if (keys[i] == 'username') {
+            if (keys[i] === 'username') {
                 header = GenerateHeaderFor(raw, keys[i]);
                 this.setUser(keys[i], raw[keys[i]]);
             }
@@ -80,7 +45,7 @@ class Json {
         var raw = this.set[0];
         var keys = Object.keys(raw);
         for (var i = 0; i < keys.length; i++) {
-            if (keys[i] == 'organizations') {
+            if (keys[i] === 'organizations') {
                 header = this.formatHeader(raw[keys[i]]);
             }
         }
@@ -88,26 +53,12 @@ class Json {
     }
 
     formatHeader(orgs) {
-        var keys = [];
-        var orgset = [];
-        var products = [];
         var header = null;
-        var organization = {};
+        var swapkeyforheader = 'Organization';
         orgs.forEach(org => {
-            products = [];
-            keys = Object.keys(org);
-            keys.forEach(key => {
-                if (key !== 'organization') {
-                    this.setToBeProduct(key, org[key]);
-                } else {
-                    organization['name'] = org[key];
-                    header = GenerateHeaderFor(org, key);
-                }
-            });
-            products = this.getProducts();
-            orgset.push(Object.assign(organization, {'products': products}));
+            header = GenerateSubHeaderFor(swapkeyforheader, org['name']);
+            this.setProducts(org['applications']);
         });
-        this.setModifiedJson(orgset);
         return header;
     }
 }
@@ -143,10 +94,6 @@ class Builder {
         return this.jsonBuilder.prods;
     }
 
-    getAltData() {
-        return this.jsonBuilder.mod;
-    }
-
     getContainer() {
         if (!this.container) {
             this.container = document.getElementById('showData');
@@ -166,16 +113,6 @@ class Builder {
     buildTable() {
         this.container = BuildTable(this.container, this.dataset);
         return this.container;
-    }
-
-    getUserJson() {
-        var modified = this.jsonBuilder.fixUserJson();
-        this.container = this.buildUserJson(modified);
-        return this.container;
-    }
-
-    buildUserJson(modified) {
-        this.container = BuildUserJson(this.container, this.dataset, modified);
     }
 
     buildJson() {

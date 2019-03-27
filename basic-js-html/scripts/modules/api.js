@@ -90,6 +90,7 @@ class Api {
     }
 
     getResponse() {
+        store
         return this.response;
     }
 

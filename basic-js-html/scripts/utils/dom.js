@@ -154,6 +154,12 @@ function GenerateHeaderFor(set, key) {
     return header;
 }
 
+function GenerateSubHeaderFor(key, val) {
+    var header = document.createElement('h3');
+    header.innerHTML = `${key}: ${val}`;
+    return header;
+}
+
 function CreateModifiedHeader() {
     var header = document.createElement('h4');
     header.innerHTML = `Modified JSON-Formatted Data`;
@@ -164,18 +170,6 @@ function CreateDefaultHeader() {
     var header = document.createElement('h4');
     header.innerHTML = `Raw JSON-Formatted Data`;
     return header;
-}
-
-function BuildUserJson(container, dataset, modified) {
-    var defView = CreateJsonBody(dataset);
-    var modView = CreateJsonBody(modified);
-    var modHeader = CreateModifiedHeader();
-    var defHeader = CreateDefaultHeader();
-    container.appendChild(modHeader);
-    container.appendChild(modView);
-    container.appendChild(defHeader);
-    container.appendChild(defView);
-    return container;
 }
 
 function BuildJson(container, data) {
@@ -191,4 +185,49 @@ function CreateJsonBody(data) {
     jsonview.setAttribute('id', 'json');
     jsonview.innerHTML = JSON.stringify(data, undefined, 2);
     return jsonview;
+}
+
+function AppendTableTitleRow(container) {
+    if (container === document.querySelector('#showData')) {
+        var table = document.querySelector('#showData table tbody');
+        var titleHeader = document.createElement('th');
+        titleHeader.setAttribute('colspan', 3);
+        titleHeader.innerHTML = 'Applications';
+        var titleRow = table.insertRow(0);
+        titleRow.appendChild(titleHeader);
+        return container;
+    }
+    return container;
+}
+
+function AppendTableContextHeader(prod, eid, extras) {
+    var key;
+    var val;
+    var banner;
+    if (prod === 'wellview') {
+        key = 'Well: ';
+        extras.forEach(extra => {
+            if (extra.idwell === eid) val = extra.wellname;
+        });
+        banner = key.concat(val);
+    } else if (prod === 'prodview') {
+        key = 'Network: ';
+        extras.forEach(extra => {
+            if (extra.idflownet === eid) val = extra.name;
+        });
+        banner = key.concat(val);
+    }
+    var container = document.querySelector('#output');
+    var contextHeader = document.createElement('h4');
+    contextHeader.setAttribute('id', 'context');
+    contextHeader.innerHTML = `${banner}`;
+    container.prepend(contextHeader);
+}
+
+function RemoveContextHeader() {
+    if (document.getElementById('context')) {
+        var contextHeader = document.getElementById('context');
+        store.setContextShown(false);
+        contextHeader.remove();
+    }
 }

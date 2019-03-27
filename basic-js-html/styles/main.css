@@ -120,7 +120,8 @@ th {
     font-size: medium;
     color: #FFFFFF;
     font-weight:500;
-    height: 45px;
+    height: 30px;
+    position: sticky;
 }
 #showData {
     align-content: space-between;
@@ -234,7 +235,8 @@ dialog[open] {
     border-top-right-radius: 0.6rem;
     border-top-left-radius: 0.6rem;
     padding-bottom: 0.6em;
-    color: #FFFFFF; 
+    text-align: center;
+    color: #FFFFFF;
     margin: 0;
 }
 .modal-footer {
@@ -291,6 +293,11 @@ dialog[open] {
         float: right;
     }
 }
+#context {
+    padding: 5px 25px 0;
+    margin: 0;
+}
+
 @media only screen and (max-width: 590px) {
     h2 {
         background-color: #0065A4;

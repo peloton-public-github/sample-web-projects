@@ -2,12 +2,16 @@
 
 class Store {
     constructor() {
+        this.requestagain = false;
+        this.contextshown = false;
+        this.dialogopen = false;
         this.needentity = false;
         this.incalcs = false;
         this.entityid = null;
         this.builder = null;
         this.product = null;
         this.prodkey = null;
+        this.extras = null;
         this.app = null;
     }
 
@@ -71,5 +75,41 @@ class Store {
 
     getEntityId() {
         return this.entityid;
+    }
+
+    getEntity() {
+
+    }
+
+    setRequestAgain(again) {
+        this.requestagain = again;
+    }
+
+    getRequestAgain() {
+        return this.requestagain;
+    }
+
+    setExtras(extras) {
+        this.extras = extras;
+    }
+
+    getExtras() {
+        return this.extras;
+    }
+
+    setDialogOpen(open) {
+        this.dialogopen = open;
+    }
+
+    dialogIsOpen() {
+        return this.dialogopen;
+    }
+
+    setContextShown(shown) {
+        this.contextshown = shown;
+    }
+
+    contextIsShown() {
+        return this.contextshown;
     }
 }

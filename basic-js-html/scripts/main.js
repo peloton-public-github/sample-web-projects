@@ -22,6 +22,7 @@ function updateCalcs() {
 
 function setActiveProduct(product) {
     store.setProduct(product);
+    RemoveContextHeader();
     CheckProductView();
     requestFor(ENV.default.path);
 }
@@ -36,7 +37,15 @@ function requestFor(path) {
 function waitForResponse(app) {
     setTimeout(() => {
         if (app.api.complete) {
-            confirmResponse(app);
+            if (app.state.wellsPath() || app.state.networksPath()) {
+                store.setEntityNeeded(app.api.complete);
+                var res = app.api.getResponse();
+                var prod = store.getProduct();
+                checkIfParentCall(prod, res);
+                store.setExtras(res);
+            } else {
+                confirmResponse(app);
+            }
         } else {
             waitForResponse(app);
         }
@@ -47,13 +56,8 @@ function confirmResponse(app) {
     app.setDataSet(app.api.response);
     if (app.state.userPath()) {
         setProductKey(app);
-    } else if (
-        app.state.networksPath()
-        || app.state.wellsPath()
-    ) {
-        setEntityNeeded(true);
     } else {
-        setEntityNeeded(false);
+        store.setEntityNeeded(false);
     }
     prepareResults(app);
 }
@@ -74,27 +78,32 @@ function setEntityNeeded(needed) {
 }
 
 function closeDialog(name) {
+    store.setDialogOpen(false);
     CloseDialog(name);
 }
 
 function submitDialog(name) {
-    CloseDialog(name);
     var hiddenEID = document.getElementById('EID');
-    var builder = store.getBuilder();
+    store.setRequestAgain(false);
+    store.setDialogOpen(false);
     var eid = hiddenEID.value;
-    var app = store.getApp();
     store.setEntityId(eid);
-    rerenderAsTable(app, builder);
+    CloseDialog(name);
 }
 
 function findProductHeaderValue(prod, orgs) {
     if (organizationExists(orgs)) {
-        var keys = Object.keys(orgs[0]);
-        keys.forEach(key => {
-            if (key === prod) {
-                store.setProductKey(orgs[0][key]['headervalue']);
-            }
-        });
+        orgs.forEach(org => {
+            let products = org['applications'];
+            products.forEach(product => {
+                var keys = Object.keys(product);
+                keys.forEach(key => {
+                    if (product[key] === prod) {
+                        store.setProductKey(product['headervalue']);
+                    }
+                });
+            });
+        });   
     }
 }
 
@@ -114,7 +123,10 @@ function renderResponse(app, dbset) {
 
 function checkIfParentCall(prod, data) {
     if (store.needEntityId()) {
-        LaunchEntitySelectionDialog(prod, data);
+        if (!store.dialogIsOpen()) {
+            LaunchEntitySelectionDialog(prod, data);
+            store.setDialogOpen(true);
+        }
     }
 }
 
@@ -132,7 +144,7 @@ function switchFormat() {
 
 function rerenderAsJson(app, builder) {
     app.clear();
-    renderJson(app, builder);
+    app.viewer = builder.buildJson();
     store.setBackup(app, builder);
 }
 
@@ -145,24 +157,31 @@ function rerenderAsTable(app, builder) {
 
 function renderTable(app, builder, prod) {
     if (app.state.userPath()) {
+        RemoveContextHeader();
         app.viewer = builder.buildHeaders();
+        store.setRequestAgain(app.state.userPath());
+        app.viewer = AppendTableTitleRow(app.viewer);
         HighlightProductRow(prod);
-    } else if (
-        app.state.networksPath()
-        || app.state.wellsPath()
-    ) {
-        let entity = store.getEntityId();
-        app.viewer = builder.buildTable();
-        HighlightProductRow(entity);
     } else {
+        var eid = store.getEntityId();
+        var extras = store.getExtras();
         app.viewer = builder.buildTable();
+        if (!store.contextIsShown()) {
+            AppendTableContextHeader(prod, eid, extras);
+            store.setContextShown(true);
+        }
     }
+    checkIfRequestingAgain(app, prod);
 }
 
-function renderJson(app, builder) {
-    if (app.state.userPath()) {
-        app.viewer = builder.getUserJson();
-    } else {
-        app.viewer = builder.buildJson();
+function checkIfRequestingAgain(app, prod) {
+    if (store.getRequestAgain()) {
+        app.api = new Api();
+        if (prod === 'wellview') {
+            app.setupRequest(prod, 'wells');
+        } else if (prod === 'prodview') {
+            app.setupRequest(prod, 'networks');
+        }
+        waitForResponse(app);
     }
 }

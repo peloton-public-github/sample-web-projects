@@ -25,20 +25,18 @@
         </h2>
         <div class="btn-group">
             <div class="inner-group" id="pvreqs">
-                <button onclick="requestFor('user')">USER</button>
-                <button onclick="requestFor('networks')">NETWORKS</button>
-                <button onclick="requestFor('units')">UNITS</button>
-                <button onclick="requestFor('tasks')">TASKS</button>
-                <button onclick="requestFor('tickets')">TICKETS</button>
-                <button onclick="requestFor('facilities')">FACILITIES</button>
+                <button onclick="requestFor('user')">SETUP</button>
+                <button class="dependent" onclick="requestFor('units')">UNITS</button>
+                <button class="dependent" onclick="requestFor('tasks')">TASKS</button>
+                <button class="dependent" onclick="requestFor('tickets')">TICKETS</button>
+                <button class="dependent" onclick="requestFor('facilities')">FACILITIES</button>
             </div>
             <div class="inner-group" id="wvreqs">
-                <button onclick="requestFor('user')">USER</button>
-                <button onclick="requestFor('wells')">WELLS</button>
-                <button onclick="requestFor('jobs')">JOBS</button>
-                <button onclick="requestFor('cements')">CEMENTS</button>
-                <button onclick="requestFor('casings')">CASINGS</button>
-                <button onclick="requestFor('inspections')">INSPECTIONS</button>
+                <button onclick="requestFor('user')">SETUP</button>
+                <button class="dependent" onclick="requestFor('jobs')">JOBS</button>
+                <button class="dependent" onclick="requestFor('cements')">CEMENTS</button>
+                <button class="dependent" onclick="requestFor('casings')">CASINGS</button>
+                <button class="dependent" onclick="requestFor('inspections')">INSPECTIONS</button>
             </div>
             <div class="settings-btns">
                 <button class="format-btn" onclick="switchFormat()">FORMAT</button>
@@ -58,8 +56,9 @@
                 </span>
             </div>
         </div>
-        <div class="output">
+        <div id="output">
             <input id="EID" type="hidden" value="" />
+            <p id="showData"></p>
             <dialog class="modal" id="networksModal">
                 <h3 class="modal-header">Select Network</h3>
                 <div class="modal-body" id="mynetworks">
@@ -78,7 +77,6 @@
                     <button id="confirm" onclick="submitDialog('well')">Confirm</button>
                 </div>
             </dialog>
-            <p id="showData"></p>
         </div>
         <script src="scripts/utils/routes.js"></script>
         <script src="scripts/utils/env.js"></script>
