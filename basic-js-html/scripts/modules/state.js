@@ -53,6 +53,7 @@ class State {
     }
 
     setPath(path) {
+        store.setPath(path);
         this.path = PATH[path];
     }
 

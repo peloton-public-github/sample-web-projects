@@ -11,8 +11,12 @@ const PRODUCTS = [
     'rigview'
 ];
 const CALCS = 'includecalcs';
-const INIT = {
+const PINIT = {
     product: 'prodview',
+    path: 'user'
+};
+const WINIT = {
+    product: 'wellview',
     path: 'user'
 };
 
@@ -22,6 +26,7 @@ const ENV = {
     token: API_TOKEN,
     routes: ROUTES,
     params: CALCS,
-    default: INIT,
+    pvinit: PINIT,
+    wvinit: WINIT,
     ou: ACTIVE_OU,
 };

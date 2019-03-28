@@ -6,12 +6,14 @@ class Store {
         this.contextshown = false;
         this.dialogopen = false;
         this.needentity = false;
+        this.nullresult = false;
         this.incalcs = false;
         this.entityid = null;
         this.builder = null;
         this.product = null;
         this.prodkey = null;
         this.extras = null;
+        this.path = null;
         this.app = null;
     }
 
@@ -77,10 +79,6 @@ class Store {
         return this.entityid;
     }
 
-    getEntity() {
-
-    }
-
     setRequestAgain(again) {
         this.requestagain = again;
     }
@@ -111,5 +109,21 @@ class Store {
 
     contextIsShown() {
         return this.contextshown;
+    }
+
+    setPath(path) {
+        this.path = path;
+    }
+
+    getPath() {
+        return this.path;
+    }
+
+    setNullResult(isnull) {
+        this.nullresult = isnull;
+    }
+
+    resultIsNull() {
+        return this.nullresult;
     }
 }

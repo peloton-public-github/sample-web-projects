@@ -9,8 +9,7 @@ function CheckToggleValue() {
     }
 }
 
-function CheckProductView() {
-    var product = store.getProduct();
+function CheckProductView(product) {
     var prodviewLabel = document.getElementById('pvlink');
     var wellviewLabel = document.getElementById('wvlink');
     var prodviewLinks = document.getElementById('pvreqs');
@@ -37,6 +36,16 @@ function HighlightProductRow(product) {
         if (rows[i].innerText.includes(product)) {
             rows[i].setAttribute('class', 'justactivated');
         }
+    }
+}
+
+function RebootDialogIfNeeded(product) {
+    var name;
+    if (store.dialogIsOpen()) {
+        store.setDialogOpen(false);
+        if (product === 'prodview') name = 'well';
+        else name = 'network';
+        CloseDialog(name);
     }
 }
 
@@ -87,17 +96,19 @@ function CloseDialog(name) {
 }
 
 function CreateDropdownSelector(prompt, array) {
+    var tempid = store.getEntityId();
     var hiddenEID = document.getElementById('EID')
     var select = document.createElement('select');
     var opt = document.createElement('option');
     opt.setAttribute('value', '');
     opt.innerHTML = prompt;
-    opt.selected = true;
+    if (!tempid) opt.selected = true;
     opt.disabled = true;
     select.appendChild(opt);
     array.forEach(item => {
         var opt = document.createElement('option');
         opt.setAttribute('value', item.id);
+        if (tempid === item.id) opt.selected = true;
         opt.innerHTML = item.name;
         select.appendChild(opt);
     });

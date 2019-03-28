@@ -80,6 +80,7 @@ class Api {
         if (event.target.readyState == 4
             && event.target.status == 200) {
             let res = JSON.parse(event.target.response);
+            this.flagIfNullResult(res);
             if (!res.length) {
                 this.response = [res];
             } else {
@@ -89,8 +90,12 @@ class Api {
         }
     }
 
+    flagIfNullResult(res) {
+        if (res.length === 0) store.setNullResult(true);
+        else store.setNullResult(false); 
+    }
+
     getResponse() {
-        store
         return this.response;
     }
 

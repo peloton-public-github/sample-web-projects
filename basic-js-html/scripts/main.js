@@ -7,7 +7,36 @@ var store;
 function StartUp()  {
     store = new Store();
     updateCalcs();
-    setActiveProduct(ENV.default.product);
+    setActiveProduct(ENV.pvinit.product);
+}
+
+function ReStartUp()  {
+    store = new Store();
+    updateCalcs();
+    setActiveProduct(ENV.wvinit.product);
+}
+
+function checkForReboot() {
+    if (store.getPath() === 'networks') {
+        ReStartUp();
+    } else if (store.getPath() === 'wells') {
+        StartUp();
+    }
+}
+
+function checkForRebootFromJson(app, builder) {
+    var temppath = store.getPath();
+    var tempid = store.getEntityId();
+    if (temppath === 'networks') {
+        StartUp();
+        store.setEntityId(tempid);
+    } else if (temppath === 'wells') {
+        ReStartUp();
+        store.setEntityId(tempid);
+    } else {
+        app.state.setMode('table');
+        rerenderAsTable(app, builder);
+    }
 }
 
 function initialize() {
@@ -21,13 +50,40 @@ function updateCalcs() {
 }
 
 function setActiveProduct(product) {
-    store.setProduct(product);
+    store.setEntityId(null);
+    rebootDomElements(product);
+}
+
+function rebootDomElements(product) {
+    RebootDialogIfNeeded(product);
+    CheckProductView(product);
     RemoveContextHeader();
-    CheckProductView();
-    requestFor(ENV.default.path);
+    rebootScriptElements(product);
+}
+
+function rebootScriptElements(product) {
+    store.setProduct(product);
+    checkForReboot()
+    if (product === 'wellview') requestFor(ENV.wvinit.path);
+    else requestFor(ENV.pvinit.path);
 }
 
 function requestFor(path) {
+    checkIfCallIsPermitted(path);
+}
+
+function checkIfCallIsPermitted(path) {
+    if (
+        (path !== ('user' || 'networks' || 'wells'))
+        && store.getEntityId() === null
+    ) {
+        alert('You must select a parent Network/Well to make this request.');
+    } else {
+        forwardRequestFor(path);
+    }
+}
+
+function forwardRequestFor(path) {
     let app = initialize();
     let product = store.getProduct();
     app.setupRequest(product, path);
@@ -137,8 +193,7 @@ function switchFormat() {
         app.state.setMode('json');
         rerenderAsJson(app, builder);
     } else {
-        app.state.setMode('table');
-        rerenderAsTable(app, builder);
+        checkForRebootFromJson(app, builder);
     }
 }
 
@@ -172,6 +227,9 @@ function renderTable(app, builder, prod) {
         }
     }
     checkIfRequestingAgain(app, prod);
+    if (store.resultIsNull()) {
+        alert('The request returned a null response. Try another request, or switch you Network/Well selection.');
+    }
 }
 
 function checkIfRequestingAgain(app, prod) {
