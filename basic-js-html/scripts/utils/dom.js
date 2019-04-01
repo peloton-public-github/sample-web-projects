@@ -1,5 +1,14 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * dom.js:
+ *  -   Utility functions related specifically
+ *      to the manipulation of DOM-elements;
+ */
+
 function CheckToggleValue() {
     var toggle = document.getElementById('incalcs');
     if (toggle.getAttribute('checked')) {

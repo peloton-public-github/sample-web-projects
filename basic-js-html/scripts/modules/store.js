@@ -1,5 +1,16 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * store.js:
+ *  -   Serves as a state-management class;
+ *  -   Allows for certain values to persist
+ *      across user-interaction while others
+ *      are reset/changed.
+ */
+
 class Store {
     constructor() {
         this.requestagain = false;

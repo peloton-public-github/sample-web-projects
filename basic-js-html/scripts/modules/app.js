@@ -1,5 +1,17 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * app.js:
+ *  -   Serves as the parent class to both api.js
+ *      and state.js, and a sibling of builders.js;
+ *  -   Class tracks user-interaction and makes use
+ *      of the various utility functions related to
+ *      DOM-manipulation and request-conditions;
+ */
+
 class App {
     constructor() {
         this.viewer = document.getElementById('showData');

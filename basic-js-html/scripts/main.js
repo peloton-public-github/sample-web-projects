@@ -1,3 +1,15 @@
+
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * main.js:
+ *  -   Entry point to the application;
+ *  -   Handles app initialization and calls
+ *      module classes and/or utility functions
+ *      as needed;
+ */
+
 var store;
 
 (function() {

@@ -1,5 +1,14 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * routes.js:
+ *  -   Contains the base url for the API as well
+ *      as the relative paths for each request;
+ */
+
 const PV_FACILITIES = 'data/pvfacility/entityId';
 const PV_TICKETS = 'data/pvticket/entityId';
 const PV_TASKS = 'data/pvtask/entityId';

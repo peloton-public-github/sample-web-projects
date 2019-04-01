@@ -1,5 +1,21 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * builders.js:
+ *  -   Class responsible for the manipulation
+ *      of data retrieved from API-requests;
+ *  -   Depending on the nature of the response
+ *      data, certain manipulations are necessary
+ *      to display clearly in a table;
+ *  -   Builder class handles the data and constructs
+ *      the tables for each API-request (default);
+ *  -   Json class handles the manipulation and/or
+ *      construction of the data into legible json. 
+ */
+
 class Json {
     constructor(data) {
         this.set = data;

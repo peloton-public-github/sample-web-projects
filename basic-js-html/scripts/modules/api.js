@@ -1,5 +1,16 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * api.js:
+ *  -   Class that strictly handles and processes requests to the API;
+ *  -   All requests follow the same logical flow through the class;
+ *  -   The request endpoint is dynamically set depending on the data
+ *      being requested and the product being used (ProdView/Wellview).
+ */
+
 class Api {
     constructor() {
         this.request = null;

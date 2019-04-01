@@ -1,5 +1,13 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * env.js:
+ *  -   Environment variables are defined here;
+ */
+
 const API_TOKEN = '';
 const SUBSCRIPTION_KEY = '';
 const ACTIVE_OU = 'appframewebapi';

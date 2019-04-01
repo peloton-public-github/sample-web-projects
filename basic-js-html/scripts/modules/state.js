@@ -1,5 +1,16 @@
 'use strict';
 
+/**
+ * Author: Michael Lowenstein
+ * Date: April 1, 2019
+ * 
+ * state.js:
+ *  -   Class that handles temporary states throughout
+ *      user-interaction (much more so than store.js);
+ *  -   Serves as a mini-state-management service while
+ *      users toggle the data-viewing; 
+ */
+
 const PATH = {
     inspections: 'inspections',
     facilities: 'facilities',
@@ -13,6 +24,7 @@ const PATH = {
     jobs: 'jobs',
     user: 'user'
 };
+
 const MODE = {
     table: 'table',
     json: 'json'
